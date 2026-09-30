@@ -13,9 +13,11 @@ import java.util.Map;
 public final class FieldClassifier {
     public enum FieldKey {
         NONE, FULL_NAME, FIRST_NAME, MIDDLE_NAME, LAST_NAME, EMAIL, PHONE, DOB,
-        GENDER, ADDRESS, CITY, STATE, PINCODE, NATIONALITY, CATEGORY,
-        TENTH_BOARD, TENTH_PERCENT, ELEVENTH_BOARD, ELEVENTH_PERCENT,
-        TWELFTH_BOARD, TWELFTH_PERCENT
+        GENDER, ADDRESS, CITY, CITY_1, CITY_2, CITY_3, STATE, PINCODE, NATIONALITY, CATEGORY,
+        CASTE_AUTHORITY, CASTE_SERIAL,
+        TENTH_BOARD, TENTH_SCHOOL, TENTH_MATHS, TENTH_TOTAL, TENTH_MAX, TENTH_YEAR, TENTH_PERCENT,
+        ELEVENTH_BOARD, ELEVENTH_SCHOOL, ELEVENTH_MATHS, ELEVENTH_TOTAL, ELEVENTH_MAX, ELEVENTH_YEAR, ELEVENTH_PERCENT,
+        TWELFTH_BOARD, TWELFTH_SCHOOL, TWELFTH_MATHS, TWELFTH_TOTAL, TWELFTH_MAX, TWELFTH_YEAR, TWELFTH_PERCENT
     }
 
     private static final List<String> AUXILIARY_CONTACT_FIELDS =
@@ -126,6 +128,9 @@ public final class FieldClassifier {
         if (containsAny(metadata, "gender", "sex")) return FieldKey.GENDER;
         if (containsAny(metadata, "address", "street_address", "streetaddress")
                 && !containsAny(metadata, "email")) return FieldKey.ADDRESS;
+        if (containsAny(metadata, "city1", "city_1")) return FieldKey.CITY_1;
+        if (containsAny(metadata, "city2", "city_2")) return FieldKey.CITY_2;
+        if (containsAny(metadata, "city3", "city_3")) return FieldKey.CITY_3;
         if (containsAny(metadata, "city", "district", "locality", "town"))
             return FieldKey.CITY;
         if (containsAny(metadata, "state", "province", "region"))
@@ -137,18 +142,55 @@ public final class FieldClassifier {
             return FieldKey.NATIONALITY;
         if (containsAny(metadata, "category", "reservation_category", "caste_category"))
             return FieldKey.CATEGORY;
+        if (containsAny(metadata, "caste_authority", "casteauthority", "caste_issuing_authority"))
+            return FieldKey.CASTE_AUTHORITY;
+        if (containsAny(metadata, "caste_serial", "casteserial", "caste_certificate_serial"))
+            return FieldKey.CASTE_SERIAL;
+
         if (containsAny(metadata, "10th_board", "tenth_board", "class10_board"))
             return FieldKey.TENTH_BOARD;
+        if (containsAny(metadata, "10th_school", "tenth_school", "class10_school"))
+            return FieldKey.TENTH_SCHOOL;
+        if (containsAny(metadata, "10th_maths", "10th_math", "tenth_maths", "tenth_math", "class10_maths"))
+            return FieldKey.TENTH_MATHS;
+        if (containsAny(metadata, "10th_total", "tenth_total", "class10_total"))
+            return FieldKey.TENTH_TOTAL;
+        if (containsAny(metadata, "10th_max", "tenth_max", "class10_max"))
+            return FieldKey.TENTH_MAX;
+        if (containsAny(metadata, "10th_year", "tenth_year", "class10_year"))
+            return FieldKey.TENTH_YEAR;
         if (containsAny(metadata, "10th_percent", "10th_percentage",
                 "tenth_percent", "tenth_percentage", "class10_percent"))
             return FieldKey.TENTH_PERCENT;
+
         if (containsAny(metadata, "11th_board", "eleventh_board", "class11_board"))
             return FieldKey.ELEVENTH_BOARD;
+        if (containsAny(metadata, "11th_school", "eleventh_school", "class11_school"))
+            return FieldKey.ELEVENTH_SCHOOL;
+        if (containsAny(metadata, "11th_maths", "11th_math", "eleventh_maths", "eleventh_math", "class11_maths"))
+            return FieldKey.ELEVENTH_MATHS;
+        if (containsAny(metadata, "11th_total", "eleventh_total", "class11_total"))
+            return FieldKey.ELEVENTH_TOTAL;
+        if (containsAny(metadata, "11th_max", "eleventh_max", "class11_max"))
+            return FieldKey.ELEVENTH_MAX;
+        if (containsAny(metadata, "11th_year", "eleventh_year", "class11_year"))
+            return FieldKey.ELEVENTH_YEAR;
         if (containsAny(metadata, "11th_percent", "11th_percentage",
                 "eleventh_percent", "eleventh_percentage", "class11_percent"))
             return FieldKey.ELEVENTH_PERCENT;
+
         if (containsAny(metadata, "12th_board", "twelfth_board", "class12_board"))
             return FieldKey.TWELFTH_BOARD;
+        if (containsAny(metadata, "12th_school", "twelfth_school", "class12_school"))
+            return FieldKey.TWELFTH_SCHOOL;
+        if (containsAny(metadata, "12th_maths", "12th_math", "twelfth_maths", "twelfth_math", "class12_maths"))
+            return FieldKey.TWELFTH_MATHS;
+        if (containsAny(metadata, "12th_total", "twelfth_total", "class12_total"))
+            return FieldKey.TWELFTH_TOTAL;
+        if (containsAny(metadata, "12th_max", "twelfth_max", "class12_max"))
+            return FieldKey.TWELFTH_MAX;
+        if (containsAny(metadata, "12th_year", "twelfth_year", "class12_year"))
+            return FieldKey.TWELFTH_YEAR;
         if (containsAny(metadata, "12th_percent", "12th_percentage",
                 "twelfth_percent", "twelfth_percentage", "class12_percent"))
             return FieldKey.TWELFTH_PERCENT;
