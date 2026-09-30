@@ -1,21 +1,156 @@
 package com.doclix.autofill.ui
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.autofill.AutofillManager
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.doclix.autofill.R
-import com.doclix.autofill.data.*
+import com.doclix.autofill.data.ProfileRepository
+import com.doclix.autofill.data.UserProfile
 
-class MainActivity:AppCompatActivity(){
- private lateinit var repo:ProfileRepository;private lateinit var e:Array<EditText>;private lateinit var status:TextView
- override fun onCreate(b:Bundle?){super.onCreate(b);setContentView(R.layout.activity_main);repo=ProfileRepository(this)
-  e=arrayOf(R.id.etFullName,R.id.etFirstName,R.id.etMiddleName,R.id.etLastName,R.id.etEmail,R.id.etPhone,R.id.etDob,R.id.etGender,R.id.etAddress,R.id.etCity,R.id.etState,R.id.etPincode,R.id.etNationality,R.id.etCategory,R.id.etTenthBoard,R.id.etTenthPercent,R.id.etEleventhBoard,R.id.etEleventhPercent,R.id.etTwelfthBoard,R.id.etTwelfthPercent).map{findViewById(it)}
-  status=findViewById(R.id.tvStatus);load();findViewById<Button>(R.id.btnSave).setOnClickListener{save()};findViewById<Button>(R.id.btnEnableAutofill).setOnClickListener{enable()}}
- override fun onResume(){super.onResume();status.text=if(getSystemService(AutofillManager::class.java)?.isAutofillSupported==true)"Autofill supported — select Doclix in Settings." else "Autofill unavailable on this device."}
- private fun load(){val p=repo.load();arrayOf(p.fullName,p.firstName,p.middleName,p.lastName,p.email,p.phone,p.dob,p.gender,p.address,p.city,p.state,p.pincode,p.nationality,p.category,p.tenthBoard,p.tenthPercent,p.eleventhBoard,p.eleventhPercent,p.twelfthBoard,p.twelfthPercent).forEachIndexed{i,x->e[i].setText(x)}}
- private fun save(){val v=e.map{it.text.toString().trim()};repo.save(UserProfile(v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11],v[12].ifBlank{"Indian"},v[13],v[14],v[15],v[16],v[17],v[18],v[19]));Toast.makeText(this,R.string.profile_saved,Toast.LENGTH_SHORT).show()}
- private fun enable(){try{startActivity(Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE).apply{data=Uri.parse("package:"+packageName)})}catch(e:Exception){startActivity(Intent(Settings.ACTION_SETTINGS))}}
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var repo: ProfileRepository
+    private lateinit var fields: Array<EditText>
+    private lateinit var status: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        repo = ProfileRepository(this)
+
+        fields = arrayOf(
+            R.id.etFullName,
+            R.id.etFirstName,
+            R.id.etMiddleName,
+            R.id.etLastName,
+            R.id.etEmail,
+            R.id.etPhone,
+            R.id.etDob,
+            R.id.etGender,
+            R.id.etAddress,
+            R.id.etCity,
+            R.id.etState,
+            R.id.etPincode,
+            R.id.etNationality,
+            R.id.etCategory,
+            R.id.etTenthBoard,
+            R.id.etTenthPercent,
+            R.id.etEleventhBoard,
+            R.id.etEleventhPercent,
+            R.id.etTwelfthBoard,
+            R.id.etTwelfthPercent
+        ).map { findViewById<EditText>(it) }.toTypedArray()
+
+        status = findViewById(R.id.tvStatus)
+
+        loadProfile()
+
+        findViewById<Button>(R.id.btnSave).setOnClickListener {
+            saveProfile()
+        }
+
+        findViewById<Button>(R.id.btnEnableAutofill).setOnClickListener {
+            enableAutofill()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val manager = getSystemService(AutofillManager::class.java)
+
+        status.text = if (manager?.isAutofillSupported == true) {
+            "Autofill supported — select Doclix in Settings."
+        } else {
+            "Autofill unavailable on this device."
+        }
+    }
+
+    private fun loadProfile() {
+        val profile = repo.load()
+
+        val values = arrayOf(
+            profile.fullName,
+            profile.firstName,
+            profile.middleName,
+            profile.lastName,
+            profile.email,
+            profile.phone,
+            profile.dob,
+            profile.gender,
+            profile.address,
+            profile.city,
+            profile.state,
+            profile.pincode,
+            profile.nationality,
+            profile.category,
+            profile.tenthBoard,
+            profile.tenthPercent,
+            profile.eleventhBoard,
+            profile.eleventhPercent,
+            profile.twelfthBoard,
+            profile.twelfthPercent
+        )
+
+        values.forEachIndexed { index, value ->
+            fields[index].setText(value)
+        }
+    }
+
+    private fun saveProfile() {
+        val values = fields.map { it.text.toString().trim() }
+
+        repo.save(
+            UserProfile(
+                fullName = values[0],
+                firstName = values[1],
+                middleName = values[2],
+                lastName = values[3],
+                email = values[4],
+                phone = values[5],
+                dob = values[6],
+                gender = values[7],
+                address = values[8],
+                city = values[9],
+                state = values[10],
+                pincode = values[11],
+                nationality = values[12].ifBlank { "Indian" },
+                category = values[13],
+                tenthBoard = values[14],
+                tenthPercent = values[15],
+                eleventhBoard = values[16],
+                eleventhPercent = values[17],
+                twelfthBoard = values[18],
+                twelfthPercent = values[19]
+            )
+        )
+
+        Toast.makeText(
+            this,
+            R.string.profile_saved,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun enableAutofill() {
+        val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE).apply {
+            data = Uri.parse("package:$packageName")
+        }
+
+        try {
+            startActivity(intent)
+        } catch (_: Exception) {
+            startActivity(Intent(Settings.ACTION_SETTINGS))
+        }
+    }
 }
