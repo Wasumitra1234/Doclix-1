@@ -13,7 +13,6 @@ import android.service.autofill.FillResponse;
 import android.service.autofill.Presentations;
 import android.service.autofill.SaveCallback;
 import android.service.autofill.SaveRequest;
-import android.text.InputType;
 import android.util.Log;
 import android.util.Pair;
 import android.view.ViewStructure;
@@ -183,12 +182,11 @@ public class DoclixAutofillService extends AutofillService {
             return Collections.emptyList();
 
         List<Pair<String, String>> result = new ArrayList<>();
-        for (ViewStructure.HtmlInfo.Attribute attribute : htmlInfo.getAttributes()) {
-            if (attribute != null && attribute.getKey() != null) {
-                result.add(new Pair<>(
-                        attribute.getKey().toLowerCase(Locale.US),
-                        attribute.getValue() == null ? "" : attribute.getValue()));
-            }
+        for (Pair<String, String> attribute : htmlInfo.getAttributes()) {
+            if (attribute == null || attribute.first == null) continue;
+            result.add(new Pair<>(
+                    attribute.first.toLowerCase(Locale.US),
+                    attribute.second == null ? "" : attribute.second));
         }
         return result;
     }
