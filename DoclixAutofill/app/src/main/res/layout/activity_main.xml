@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doclix Autofill" android:textSize="22sp" android:textStyle="bold"/>
+<TextView android:id="@+id/tvStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Checking…"/>
+<Button android:id="@+id/btnEnableAutofill" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/enable_autofill"/>
+<EditText android:id="@+id/etFullName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_full_name"/>
+<EditText android:id="@+id/etFirstName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_first_name"/>
+<EditText android:id="@+id/etMiddleName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Middle Name"/>
+<EditText android:id="@+id/etLastName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_last_name"/>
+<EditText android:id="@+id/etEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_email"/>
+<EditText android:id="@+id/etPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_phone"/>
+<EditText android:id="@+id/etDob" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_dob"/>
+<EditText android:id="@+id/etGender" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_gender"/>
+<EditText android:id="@+id/etAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_address"/>
+<EditText android:id="@+id/etCity" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_city"/>
+<EditText android:id="@+id/etState" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_state"/>
+<EditText android:id="@+id/etPincode" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_pincode"/>
+<EditText android:id="@+id/etNationality" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_nationality"/>
+<EditText android:id="@+id/etCategory" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_category"/>
+<EditText android:id="@+id/etTenthBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Board"/>
+<EditText android:id="@+id/etTenthPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th % / CGPA"/>
+<EditText android:id="@+id/etEleventhBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Board"/>
+<EditText android:id="@+id/etEleventhPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th % / CGPA"/>
+<EditText android:id="@+id/etTwelfthBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Board"/>
+<EditText android:id="@+id/etTwelfthPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th % / CGPA"/>
+<Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/save_profile"/>
+</LinearLayout></ScrollView>
