@@ -66,33 +66,55 @@ public final class FieldClassifier {
             switch (hint) {
                 case "name":
                 case "personname":
-                case "personfullname": return FieldKey.FULL_NAME;
+                case "person_name":
+                case "personfullname":
+                case "person_fullname": return FieldKey.FULL_NAME;
                 case "persongivenname":
+                case "person_given_name":
                 case "givenname":
-                case "firstname": return FieldKey.FIRST_NAME;
+                case "given_name":
+                case "firstname":
+                case "first_name": return FieldKey.FIRST_NAME;
                 case "personmiddlename":
+                case "person_middle_name":
                 case "middlename":
-                case "additionalname": return FieldKey.MIDDLE_NAME;
+                case "middle_name":
+                case "additionalname":
+                case "additional_name": return FieldKey.MIDDLE_NAME;
                 case "personfamilyname":
+                case "person_family_name":
                 case "familyname":
+                case "family_name":
                 case "lastname":
+                case "last_name":
                 case "surname": return FieldKey.LAST_NAME;
                 case "emailaddress":
+                case "email_address":
                 case "email": return FieldKey.EMAIL;
                 case "phone":
                 case "phonenumber":
+                case "phone_number":
                 case "phonenational": return FieldKey.PHONE;
                 case "birthdate":
-                case "birthdatefull": return FieldKey.DOB;
+                case "birthdatefull":
+                case "birth_date_full": return FieldKey.DOB;
                 case "gender": return FieldKey.GENDER;
                 case "postaladdress":
-                case "streetaddress": return FieldKey.ADDRESS;
+                case "postal_address":
+                case "streetaddress":
+                case "street_address": return FieldKey.ADDRESS;
                 case "addresslocality":
-                case "postaladdresslocality": return FieldKey.CITY;
+                case "address_locality":
+                case "postaladdresslocality":
+                case "postal_address_locality": return FieldKey.CITY;
                 case "addressregion":
-                case "postaladdressregion": return FieldKey.STATE;
+                case "address_region":
+                case "postaladdressregion":
+                case "postal_address_region": return FieldKey.STATE;
                 case "postalcode":
-                case "postaladdresspostalcode": return FieldKey.PINCODE;
+                case "postal_code":
+                case "postaladdresspostalcode":
+                case "postal_address_postal_code": return FieldKey.PINCODE;
                 case "nationality": return FieldKey.NATIONALITY;
                 default: break;
             }
