@@ -279,7 +279,9 @@ public final class FieldClassifier {
 
     private static String normalize(String value) {
         if (value == null) return "";
-        return value.trim().toLowerCase(Locale.US)
+        return value.trim()
+                .replaceAll("([a-z0-9])([A-Z])", "$1_$2")
+                .toLowerCase(Locale.US)
                 .replace('-', '_').replace(':', '_').replace('/', '_').replace('.', '_')
                 .replaceAll("[^a-z0-9_]+", "_").replaceAll("_+", "_")
                 .replaceAll("^_", "").replaceAll("_$", "");
