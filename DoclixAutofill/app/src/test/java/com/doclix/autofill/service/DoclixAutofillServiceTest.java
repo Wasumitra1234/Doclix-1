@@ -39,9 +39,23 @@ public class DoclixAutofillServiceTest {
                 classify(null, "", html, InputType.TYPE_CLASS_TEXT));
     }
 
+    @Test public void htmlPrimaryEmailNameMapsToEmail() {
+        Map<String, String> html = new LinkedHashMap<>();
+        html.put("name", "email");
+        assertEquals(FieldClassifier.FieldKey.EMAIL,
+                classify(null, "", html, InputType.TYPE_CLASS_TEXT));
+    }
+
     @Test public void htmlEmailNameMapsToEmail() {
         Map<String, String> html = new LinkedHashMap<>();
         html.put("name", "email_id");
+        assertEquals(FieldClassifier.FieldKey.EMAIL,
+                classify(null, "", html, InputType.TYPE_CLASS_TEXT));
+    }
+
+    @Test public void htmlAutocompleteEmailMapsToEmail() {
+        Map<String, String> html = new LinkedHashMap<>();
+        html.put("autocomplete", "email");
         assertEquals(FieldClassifier.FieldKey.EMAIL,
                 classify(null, "", html, InputType.TYPE_CLASS_TEXT));
     }
