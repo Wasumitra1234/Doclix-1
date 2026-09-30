@@ -22,33 +22,69 @@ public class DoclixAutofillServiceTest {
                 hints, id, "", "", html, inputType);
     }
 
-    @Test public void emailIdMapsToEmail() {
-        assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "email_id", Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
+    private static FieldClassifier.FieldKey byId(String id) {
+        return classify(null, id, Collections.emptyMap(), InputType.TYPE_CLASS_TEXT);
     }
 
-    @Test public void confirmEmailIdMapsToEmail() {
-        assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "confirm_email_id", Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
+    @Test public void completeFormTextFieldMappingsPass() {
+        Map<String, FieldClassifier.FieldKey> expected = new LinkedHashMap<>();
+        expected.put("fullName", FieldClassifier.FieldKey.FULL_NAME);
+        expected.put("firstName", FieldClassifier.FieldKey.FIRST_NAME);
+        expected.put("middleName", FieldClassifier.FieldKey.MIDDLE_NAME);
+        expected.put("lastName", FieldClassifier.FieldKey.LAST_NAME);
+        expected.put("email", FieldClassifier.FieldKey.EMAIL);
+        expected.put("confirmEmail", FieldClassifier.FieldKey.EMAIL);
+        expected.put("dob", FieldClassifier.FieldKey.DOB);
+        expected.put("gender", FieldClassifier.FieldKey.GENDER);
+        expected.put("nationality", FieldClassifier.FieldKey.NATIONALITY);
+        expected.put("category", FieldClassifier.FieldKey.CATEGORY);
+        expected.put("casteAuthority", FieldClassifier.FieldKey.CASTE_AUTHORITY);
+        expected.put("casteSerial", FieldClassifier.FieldKey.CASTE_SERIAL);
+
+        expected.put("tenthBoard", FieldClassifier.FieldKey.TENTH_BOARD);
+        expected.put("tenthSchool", FieldClassifier.FieldKey.TENTH_SCHOOL);
+        expected.put("tenthMaths", FieldClassifier.FieldKey.TENTH_MATHS);
+        expected.put("tenthTotal", FieldClassifier.FieldKey.TENTH_TOTAL);
+        expected.put("tenthMax", FieldClassifier.FieldKey.TENTH_MAX);
+        expected.put("tenthYear", FieldClassifier.FieldKey.TENTH_YEAR);
+        expected.put("tenthPercent", FieldClassifier.FieldKey.TENTH_PERCENT);
+
+        expected.put("eleventhBoard", FieldClassifier.FieldKey.ELEVENTH_BOARD);
+        expected.put("eleventhSchool", FieldClassifier.FieldKey.ELEVENTH_SCHOOL);
+        expected.put("eleventhMaths", FieldClassifier.FieldKey.ELEVENTH_MATHS);
+        expected.put("eleventhTotal", FieldClassifier.FieldKey.ELEVENTH_TOTAL);
+        expected.put("eleventhMax", FieldClassifier.FieldKey.ELEVENTH_MAX);
+        expected.put("eleventhYear", FieldClassifier.FieldKey.ELEVENTH_YEAR);
+        expected.put("eleventhPercent", FieldClassifier.FieldKey.ELEVENTH_PERCENT);
+
+        expected.put("twelfthBoard", FieldClassifier.FieldKey.TWELFTH_BOARD);
+        expected.put("twelfthSchool", FieldClassifier.FieldKey.TWELFTH_SCHOOL);
+        expected.put("twelfthMaths", FieldClassifier.FieldKey.TWELFTH_MATHS);
+        expected.put("twelfthTotal", FieldClassifier.FieldKey.TWELFTH_TOTAL);
+        expected.put("twelfthMax", FieldClassifier.FieldKey.TWELFTH_MAX);
+        expected.put("twelfthYear", FieldClassifier.FieldKey.TWELFTH_YEAR);
+        expected.put("twelfthPercent", FieldClassifier.FieldKey.TWELFTH_PERCENT);
+
+        for (Map.Entry<String, FieldClassifier.FieldKey> entry : expected.entrySet()) {
+            assertEquals("Field: " + entry.getKey(), entry.getValue(), byId(entry.getKey()));
+        }
     }
 
-    @Test public void htmlEmailTypeMapsToEmail() {
-        Map<String, String> html = new LinkedHashMap<>();
-        html.put("type", "email");
-        assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "", html, InputType.TYPE_CLASS_TEXT));
+    @Test public void cityVariantsMapSeparately() {
+        assertEquals(FieldClassifier.FieldKey.CITY_1, byId("city1"));
+        assertEquals(FieldClassifier.FieldKey.CITY_2, byId("city2"));
+        assertEquals(FieldClassifier.FieldKey.CITY_3, byId("city3"));
+    }
+
+    @Test public void emailVariantsMapToEmail() {
+        assertEquals(FieldClassifier.FieldKey.EMAIL, byId("email"));
+        assertEquals(FieldClassifier.FieldKey.EMAIL, byId("email_id"));
+        assertEquals(FieldClassifier.FieldKey.EMAIL, byId("confirm_email_id"));
     }
 
     @Test public void htmlPrimaryEmailNameMapsToEmail() {
         Map<String, String> html = new LinkedHashMap<>();
         html.put("name", "email");
-        assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "", html, InputType.TYPE_CLASS_TEXT));
-    }
-
-    @Test public void htmlEmailNameMapsToEmail() {
-        Map<String, String> html = new LinkedHashMap<>();
-        html.put("name", "email_id");
         assertEquals(FieldClassifier.FieldKey.EMAIL,
                 classify(null, "", html, InputType.TYPE_CLASS_TEXT));
     }
@@ -60,71 +96,46 @@ public class DoclixAutofillServiceTest {
                 classify(null, "", html, InputType.TYPE_CLASS_TEXT));
     }
 
-    @Test public void emailInputTypeMapsToEmail() {
-        int inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+    @Test public void htmlEmailTypeMapsToEmail() {
+        Map<String, String> html = new LinkedHashMap<>();
+        html.put("type", "email");
         assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "", Collections.emptyMap(), inputType));
+                classify(null, "", html, InputType.TYPE_CLASS_TEXT));
     }
 
-    @Test public void webEmailInputTypeMapsToEmail() {
-        int inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS;
+    @Test public void emailInputTypesMapToEmail() {
+        int email = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+        int webEmail = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS;
         assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(null, "", Collections.emptyMap(), inputType));
-    }
-
-    @Test public void emailAutofillHintMapsToEmail() {
+                classify(null, "", Collections.emptyMap(), email));
         assertEquals(FieldClassifier.FieldKey.EMAIL,
-                classify(new String[]{"emailAddress"}, "unknown", Collections.emptyMap(),
-                        InputType.TYPE_CLASS_TEXT));
+                classify(null, "", Collections.emptyMap(), webEmail));
     }
 
-    @Test public void whatsappNoIsBlocked() {
+    @Test public void autofillEmailHintMapsToEmail() {
+        assertEquals(FieldClassifier.FieldKey.EMAIL,
+                classify(new String[]{"emailAddress"}, "unknown",
+                        Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
+    }
+
+    @Test public void auxiliaryContactsRemainBlocked() {
         assertEquals(FieldClassifier.FieldKey.NONE,
-                classify(new String[]{"phone"}, "whatsapp_no", Collections.emptyMap(),
-                        InputType.TYPE_CLASS_PHONE));
-    }
-
-    @Test public void alternateMobileIsBlocked() {
+                classify(new String[]{"phone"}, "whatsapp_no",
+                        Collections.emptyMap(), InputType.TYPE_CLASS_PHONE));
         assertEquals(FieldClassifier.FieldKey.NONE,
-                classify(new String[]{"phone"}, "alt_mobile", Collections.emptyMap(),
-                        InputType.TYPE_CLASS_PHONE));
-    }
-
-    @Test public void alternateEmailIsBlocked() {
+                classify(new String[]{"phone"}, "alt_mobile",
+                        Collections.emptyMap(), InputType.TYPE_CLASS_PHONE));
         assertEquals(FieldClassifier.FieldKey.NONE,
-                classify(new String[]{"emailAddress"}, "alternate_email", Collections.emptyMap(),
-                        InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS));
+                classify(new String[]{"emailAddress"}, "alternate_email",
+                        Collections.emptyMap(), InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS));
     }
 
-    @Test public void primaryFullNamePasses() {
-        assertEquals(FieldClassifier.FieldKey.FULL_NAME,
-                classify(null, "full_name", Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
-    }
-
-    @Test public void primaryFirstNamePasses() {
-        assertEquals(FieldClassifier.FieldKey.FIRST_NAME,
-                classify(new String[]{"personGivenName"}, "", Collections.emptyMap(),
-                        InputType.TYPE_CLASS_TEXT));
-    }
-
-    @Test public void primaryLastNamePasses() {
-        assertEquals(FieldClassifier.FieldKey.LAST_NAME,
-                classify(new String[]{"personFamilyName"}, "", Collections.emptyMap(),
-                        InputType.TYPE_CLASS_TEXT));
-    }
-
-    @Test public void mobilePasses() {
-        assertEquals(FieldClassifier.FieldKey.PHONE,
-                classify(null, "mobile", Collections.emptyMap(), InputType.TYPE_CLASS_PHONE));
-    }
-
-    @Test public void dobPasses() {
-        assertEquals(FieldClassifier.FieldKey.DOB,
-                classify(null, "dob", Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
-    }
-
-    @Test public void categoryPasses() {
-        assertEquals(FieldClassifier.FieldKey.CATEGORY,
-                classify(null, "category", Collections.emptyMap(), InputType.TYPE_CLASS_TEXT));
+    @Test public void primaryStandardFieldsPass() {
+        assertEquals(FieldClassifier.FieldKey.FULL_NAME, byId("full_name"));
+        assertEquals(FieldClassifier.FieldKey.FIRST_NAME, byId("first_name"));
+        assertEquals(FieldClassifier.FieldKey.LAST_NAME, byId("last_name"));
+        assertEquals(FieldClassifier.FieldKey.PHONE, byId("mobile"));
+        assertEquals(FieldClassifier.FieldKey.DOB, byId("dob"));
+        assertEquals(FieldClassifier.FieldKey.CATEGORY, byId("category"));
     }
 }
