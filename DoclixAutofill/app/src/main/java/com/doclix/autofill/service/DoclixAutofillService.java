@@ -15,6 +15,7 @@ import android.service.autofill.SaveCallback;
 import android.service.autofill.SaveRequest;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 import android.view.ViewStructure;
 import android.view.autofill.AutofillId;
 import android.view.autofill.AutofillValue;
@@ -77,11 +78,13 @@ public class DoclixAutofillService extends AutofillService {
         int populated = 0;
 
         for (AutofillField field : routed.values()) {
-            String value = valueForField(field.classification, profile);
-            if (value == null || value.trim().isEmpty()) continue;
+            AutofillValue autofillValue = autofillValueForField(field, profile);
+            if (autofillValue == null) continue;
 
-            AutofillValue autofillValue = AutofillValue.forText(value);
-            RemoteViews presentation = createPresentation(value);
+            String displayValue = displayValueForField(field, profile);
+            if (displayValue == null || displayValue.trim().isEmpty()) continue;
+
+            RemoteViews presentation = createPresentation(displayValue);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {
@@ -149,10 +152,11 @@ public class DoclixAutofillService extends AutofillService {
         if (node == null) return;
 
         AutofillId id = node.getAutofillId();
-        if (id != null && node.getAutofillType() == android.view.View.AUTOFILL_TYPE_TEXT) {
+        if (id != null && node.getAutofillType() != View.AUTOFILL_TYPE_NONE) {
             FieldClassifier.FieldKey key = classify(node);
             if (key != FieldClassifier.FieldKey.NONE)
-                output.add(new AutofillField(id, key));
+                output.add(new AutofillField(id, key, node.getAutofillType(),
+                        node.getAutofillOptions()));
         }
 
         for (int i = 0; i < node.getChildCount(); i++) walkNode(node.getChildAt(i), output);
@@ -191,8 +195,34 @@ public class DoclixAutofillService extends AutofillService {
         return result;
     }
 
-    private String valueForField(FieldClassifier.FieldKey key, UserProfile p) {
-        switch (key) {
+    private AutofillValue autofillValueForField(AutofillField field, UserProfile p) {
+        String value = displayValueForField(field, p);
+        if (value == null || value.trim().isEmpty()) return null;
+
+        if (field.autofillType == View.AUTOFILL_TYPE_LIST) {
+            if (field.options == null) return null;
+            for (int i = 0; i < field.options.length; i++) {
+                CharSequence option = field.options[i];
+                if (option != null && normalize(option.toString()).equals(normalize(value)))
+                    return AutofillValue.forList(i);
+            }
+            return null;
+        }
+
+        if (field.autofillType == View.AUTOFILL_TYPE_TEXT
+                || field.autofillType == View.AUTOFILL_TYPE_DATE
+                || field.autofillType == View.AUTOFILL_TYPE_TOGGLE) {
+            if (field.autofillType == View.AUTOFILL_TYPE_TOGGLE) {
+                return AutofillValue.forToggle(isTruthy(value));
+            }
+            return AutofillValue.forText(value);
+        }
+
+        return null;
+    }
+
+    private String displayValueForField(AutofillField field, UserProfile p) {
+        switch (field.classification) {
             case FULL_NAME: return p.getFullName();
             case FIRST_NAME: return p.getFirstName();
             case MIDDLE_NAME: return p.getMiddleName();
@@ -203,18 +233,49 @@ public class DoclixAutofillService extends AutofillService {
             case GENDER: return p.getGender();
             case ADDRESS: return p.getAddress();
             case CITY: return p.getCity();
+            case CITY_1: return p.getCity1();
+            case CITY_2: return p.getCity2();
+            case CITY_3: return p.getCity3();
             case STATE: return p.getState();
             case PINCODE: return p.getPincode();
             case NATIONALITY: return p.getNationality();
             case CATEGORY: return p.getCategory();
+            case CASTE_AUTHORITY: return p.getCasteAuthority();
+            case CASTE_SERIAL: return p.getCasteSerial();
             case TENTH_BOARD: return p.getTenthBoard();
+            case TENTH_SCHOOL: return p.getTenthSchool();
+            case TENTH_MATHS: return p.getTenthMaths();
+            case TENTH_TOTAL: return p.getTenthTotal();
+            case TENTH_MAX: return p.getTenthMax();
+            case TENTH_YEAR: return p.getTenthYear();
             case TENTH_PERCENT: return p.getTenthPercent();
             case ELEVENTH_BOARD: return p.getEleventhBoard();
+            case ELEVENTH_SCHOOL: return p.getEleventhSchool();
+            case ELEVENTH_MATHS: return p.getEleventhMaths();
+            case ELEVENTH_TOTAL: return p.getEleventhTotal();
+            case ELEVENTH_MAX: return p.getEleventhMax();
+            case ELEVENTH_YEAR: return p.getEleventhYear();
             case ELEVENTH_PERCENT: return p.getEleventhPercent();
             case TWELFTH_BOARD: return p.getTwelfthBoard();
+            case TWELFTH_SCHOOL: return p.getTwelfthSchool();
+            case TWELFTH_MATHS: return p.getTwelfthMaths();
+            case TWELFTH_TOTAL: return p.getTwelfthTotal();
+            case TWELFTH_MAX: return p.getTwelfthMax();
+            case TWELFTH_YEAR: return p.getTwelfthYear();
             case TWELFTH_PERCENT: return p.getTwelfthPercent();
             default: return null;
         }
+    }
+
+    private boolean isTruthy(String value) {
+        String normalized = normalize(value);
+        return normalized.equals("true") || normalized.equals("yes")
+                || normalized.equals("1") || normalized.equals("y");
+    }
+
+    private String normalize(String value) {
+        return value == null ? "" : value.trim().toLowerCase(Locale.US)
+                .replaceAll("[^a-z0-9]+", "");
     }
 
     private RemoteViews createPresentation(String value) {
@@ -226,10 +287,15 @@ public class DoclixAutofillService extends AutofillService {
     private static final class AutofillField {
         final AutofillId id;
         final FieldClassifier.FieldKey classification;
+        final int autofillType;
+        final CharSequence[] options;
 
-        AutofillField(AutofillId id, FieldClassifier.FieldKey classification) {
+        AutofillField(AutofillId id, FieldClassifier.FieldKey classification,
+                      int autofillType, CharSequence[] options) {
             this.id = id;
             this.classification = classification;
+            this.autofillType = autofillType;
+            this.options = options;
         }
     }
 }
