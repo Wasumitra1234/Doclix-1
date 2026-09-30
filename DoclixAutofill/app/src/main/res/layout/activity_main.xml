@@ -4,6 +4,7 @@
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doclix Autofill" android:textSize="22sp" android:textStyle="bold"/>
 <TextView android:id="@+id/tvStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Checking…"/>
 <Button android:id="@+id/btnEnableAutofill" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/enable_autofill"/>
+
 <EditText android:id="@+id/etFullName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_full_name"/>
 <EditText android:id="@+id/etFirstName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_first_name"/>
 <EditText android:id="@+id/etMiddleName" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Middle Name"/>
@@ -14,15 +15,39 @@
 <EditText android:id="@+id/etGender" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_gender"/>
 <EditText android:id="@+id/etAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_address"/>
 <EditText android:id="@+id/etCity" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_city"/>
+<EditText android:id="@+id/etCity1" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="City 1"/>
+<EditText android:id="@+id/etCity2" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="City 2"/>
+<EditText android:id="@+id/etCity3" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="City 3"/>
 <EditText android:id="@+id/etState" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_state"/>
 <EditText android:id="@+id/etPincode" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_pincode"/>
 <EditText android:id="@+id/etNationality" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_nationality"/>
 <EditText android:id="@+id/etCategory" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/hint_category"/>
+<EditText android:id="@+id/etCasteAuthority" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Caste Certificate Authority"/>
+<EditText android:id="@+id/etCasteSerial" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Caste Certificate Serial"/>
+
 <EditText android:id="@+id/etTenthBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Board"/>
+<EditText android:id="@+id/etTenthSchool" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th School"/>
+<EditText android:id="@+id/etTenthMaths" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Maths"/>
+<EditText android:id="@+id/etTenthTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Total Marks"/>
+<EditText android:id="@+id/etTenthMax" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Maximum Marks"/>
+<EditText android:id="@+id/etTenthYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th Passing Year"/>
 <EditText android:id="@+id/etTenthPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="10th % / CGPA"/>
+
 <EditText android:id="@+id/etEleventhBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Board"/>
+<EditText android:id="@+id/etEleventhSchool" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th School"/>
+<EditText android:id="@+id/etEleventhMaths" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Maths"/>
+<EditText android:id="@+id/etEleventhTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Total Marks"/>
+<EditText android:id="@+id/etEleventhMax" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Maximum Marks"/>
+<EditText android:id="@+id/etEleventhYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th Passing Year"/>
 <EditText android:id="@+id/etEleventhPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="11th % / CGPA"/>
+
 <EditText android:id="@+id/etTwelfthBoard" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Board"/>
+<EditText android:id="@+id/etTwelfthSchool" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th School"/>
+<EditText android:id="@+id/etTwelfthMaths" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Maths"/>
+<EditText android:id="@+id/etTwelfthTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Total Marks"/>
+<EditText android:id="@+id/etTwelfthMax" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Maximum Marks"/>
+<EditText android:id="@+id/etTwelfthYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th Passing Year"/>
 <EditText android:id="@+id/etTwelfthPercent" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="12th % / CGPA"/>
+
 <Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/save_profile"/>
 </LinearLayout></ScrollView>
