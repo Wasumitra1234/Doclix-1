@@ -1,7 +1,7 @@
 name: Doclix Autofill APK
 on:
   push:
-    branches: ["doclix-autofill-production"]
+    branches: ["main","doclix-autofill-production"]
   workflow_dispatch:
 jobs:
   build:
