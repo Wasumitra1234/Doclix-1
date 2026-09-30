@@ -102,7 +102,7 @@ public final class FieldClassifier {
                                                       String contentDescription) {
         String metadata = normalize(join(id, hint, contentDescription));
 
-        if (containsAny(metadata, "email_id", "emailid", "confirm_email_id",
+        if (containsAny(metadata, "email", "mail", "email_id", "emailid", "confirm_email_id",
                 "confirmemailid", "email_address", "emailaddress", "e_mail"))
             return FieldKey.EMAIL;
         if (containsAny(metadata, "mobile", "mobile_no", "mobile_number",
